@@ -334,6 +334,17 @@ const QQQ = {
     { type: "40wk", d: "2026-08-31", label: "40wk \u25BC", color: "#dc2626", proj: true },
     { type: "20d", d: "2026-09-09", label: "20d \u25B2pk", color: "#eab308", proj: true }
   ],
+  // Hurst long-cycle arcs: quadratic Bézier from trough t1→t2.
+  // 54-month: Oct 2022 low → proj Oct/Nov 2026 (nominally ~54mo from prior; right-translated = bullish so far).
+  // 9-year:   Mar 2020 COVID low → proj mid-2029 (next 9yr trough; arc spans the full secular advance window).
+  // 18-month: shown as arc pair within the chart window — Aug 2024 ▼ → Apr 2025 ▼ → proj Oct 2026 ▼.
+  // Translation annotation: "R" = right-translated (peak past midpoint = bullish), "L" = left-translated (bearish).
+  HURST_ARCS: [
+    { cycle: "9yr", t1: "2022-10-13", t2: "2029-03-01", label: "9yr", color: "#7c3aed", proj: true, lw: 2.2, heightFrac: 0.42, note: "9-Year Cycle \xB7 Visible anchor: Oct'22 (sub-trough within 9yr) \u2192 proj Mar'29 \xB7 Actual 9yr origin: Mar'20 COVID low (off-screen left). RIGHT-translated (peak ~2026, well past midpoint) = strongly bullish structure. Arc width (~77mo) vs 54mo arc (~48mo) distinguishes them visually.", translation: "R" },
+    { cycle: "54mo", t1: "2022-10-13", t2: "2026-10-01", label: "54mo", color: "#0891b2", proj: true, lw: 2, note: "54-Month Cycle \xB7 Oct'22 confirmed low \u2192 proj Oct'26 \xB7 RIGHT-translated (peak Apr'25, >50% through) = bullish. Harmonicity check: 18mo troughs (Aug'24, Apr'25) nest at ~1/3 & ~2/3 \u2713", translation: "R" },
+    { cycle: "18mo", t1: "2024-08-05", t2: "2025-04-08", label: "18mo\xB71", color: "#0e7490", proj: false, lw: 1.4, note: "18-Month Sub-Cycle \xB7 Aug'24 \u2192 Apr'25 \xB7 RIGHT-translated (peak Oct'25) = bullish phase", translation: "R" },
+    { cycle: "18mo", t1: "2025-04-08", t2: "2026-10-01", label: "18mo\xB72", color: "#0e7490", proj: true, lw: 1.4, note: "18-Month Sub-Cycle \xB7 Apr'25 \u2192 proj Oct'26 \xB7 LEFT-translated so far (peak Jun'26 early in the cycle) = BEARISH signal \u2014 confirms downside pressure into Oct'26 trough", translation: "L" }
+  ],
   levels: [[748.65, "ATH 748.65 (intraday Jun3)", "#dc2626"], [692.93, "Jun10 intraday low (true trough) / Jun9 wick 686.37", "#f59e0b"], [628, "200dma ~628", "#6366f1"]],
   scen: {
     base: "Iran-relief bounce completes wave 2/B into late-Jun/Jul (terminating 727\u2013733, the 61.8% intraday-anchored zone), BELOW the intraday ATH (748.65) while SPY prints its marginal high = cascade non-confirmation. Summation makes a lower high and rolls back under +500. Jul 9 40d trough below 692.93 confirms; air-pocket to ~674.77 (Aug 4, the TRUE 38.2% of the extended (v) using intraday anchor: ATH 748.65 \u2212 intraday low 555.60); the Aug 13\u201316 sync + Aug 31 20wk/40wk land 631 (61.8% of (v) using intraday range); then a Sep bounce to ~641.",
@@ -574,6 +585,12 @@ const SPY = {
     { type: "40wk", d: "2026-08-31", label: "40wk \u25BC", color: "#dc2626", proj: true },
     { type: "20d", d: "2026-09-09", label: "20d \u25B2pk", color: "#eab308", proj: true }
   ],
+  HURST_ARCS: [
+    { cycle: "9yr", t1: "2022-10-13", t2: "2029-03-01", label: "9yr", color: "#7c3aed", proj: true, lw: 2.2, heightFrac: 0.42, note: "9-Year Cycle \xB7 Visible anchor: Oct'22 \u2192 proj Mar'29 (actual origin Mar'20 off-screen). RIGHT-translated = bullish secular structure. Wider arc than 54mo distinguishes them.", translation: "R" },
+    { cycle: "54mo", t1: "2022-10-13", t2: "2026-10-01", label: "54mo", color: "#0891b2", proj: true, lw: 2, note: "54-Month Cycle \xB7 Oct'22 confirmed low \u2192 proj Oct'26 \xB7 RIGHT-translated (peak Feb\u2013Jun'26, past midpoint) = bullish. 18mo sub-troughs (Aug'24, Apr'25) nest at ~1/3 & ~2/3 \u2713", translation: "R" },
+    { cycle: "18mo", t1: "2024-08-05", t2: "2025-04-07", label: "18mo\xB71", color: "#0e7490", proj: false, lw: 1.4, note: "18-Month Sub-Cycle \xB7 Aug'24 \u2192 Apr'25 \xB7 RIGHT-translated (peak Feb'25) = bullish phase", translation: "R" },
+    { cycle: "18mo", t1: "2025-04-07", t2: "2026-10-01", label: "18mo\xB72", color: "#0e7490", proj: true, lw: 1.4, note: "18-Month Sub-Cycle \xB7 Apr'25 \u2192 proj Oct'26 \xB7 LEFT-translated (peak Jun'26 early) = BEARISH \u2014 downside into Oct'26", translation: "L" }
+  ],
   levels: [[760.4, "ATH 760.40 (intraday Jun2)", "#dc2626"], [725.33, "Jun10 intraday low / Jun9 wick 722.59", "#f59e0b"], [672, "200dma / 38.2% full ~672", "#6366f1"]],
   scen: {
     base: "The current bounce (741.75, ~48% retrace) extends toward the 61.8%/78.6% zone (746\u2013752) by late-Jun (FOMC catalyst) but fails to retest 760.40 \u2014 a marginal-high non-confirmation while QQQ makes a lower high. The 40-week cycle then descends: Jul 9 40d trough ~744-ish gives way, Aug 4 ~710, the Aug 13\u201316 sync accelerates it, and Aug 31 lands ~672 (200dma + 38.2% of the full advance). Sep bounce to ~681. Classic 'retest and reject' at a terminal Wave (5).",
@@ -807,6 +824,12 @@ const DIA = {
     { type: "20wk", d: "2026-08-31", label: "20wk \u25BC", color: "#ea580c", proj: true },
     { type: "40wk", d: "2026-08-31", label: "40wk \u25BC", color: "#dc2626", proj: true },
     { type: "20d", d: "2026-09-09", label: "20d \u25B2pk", color: "#eab308", proj: true }
+  ],
+  HURST_ARCS: [
+    { cycle: "9yr", t1: "2022-10-13", t2: "2029-03-01", label: "9yr", color: "#7c3aed", proj: true, lw: 2.2, heightFrac: 0.42, note: "9-Year Cycle \xB7 Visible anchor: Oct'22 \u2192 proj Mar'29 (actual origin Mar'20 off-screen). RIGHT-translated = bullish. DIA value/cyclicals often leads 9yr trough recovery. Wider arc than 54mo distinguishes them visually.", translation: "R" },
+    { cycle: "54mo", t1: "2022-10-13", t2: "2026-10-01", label: "54mo", color: "#0891b2", proj: true, lw: 2, note: "54-Month Cycle \xB7 Oct'22 confirmed low \u2192 proj Oct'26 \xB7 RIGHT-translated = bullish. DIA's value tilt means 54mo peaks tend to be LATER than QQQ/SPY (cyclicals hold longer).", translation: "R" },
+    { cycle: "18mo", t1: "2024-08-05", t2: "2025-04-07", label: "18mo\xB71", color: "#0e7490", proj: false, lw: 1.4, note: "18-Month Sub-Cycle \xB7 Aug'24 \u2192 Apr'25 \xB7 RIGHT-translated (peak Feb'25) = bullish phase", translation: "R" },
+    { cycle: "18mo", t1: "2025-04-07", t2: "2026-10-01", label: "18mo\xB72", color: "#0e7490", proj: true, lw: 1.4, note: "18-Month Sub-Cycle \xB7 Apr'25 \u2192 proj Oct'26 \xB7 LEFT-translated (peak Jun'26 early in cycle) = BEARISH \u2014 confirms cyclical rollover pressure into Oct'26", translation: "L" }
   ],
   levels: [[523.23, "NEW ATH 524.17 (intraday Jun17)", "#22c55e"], [500.1, "Jun10 intraday trough", "#f59e0b"], [450.44, "Mar30 intraday low (origin)", "#6366f1"]],
   scen: {
@@ -1097,6 +1120,8 @@ function InstrumentView({ inst }) {
   const [showHL, setShowHL] = useState(true);
   const [showCycles, setShowCycles] = useState({});
   const CYCLE_CFG = [
+    { key: "9yr", label: "9yr", color: "#7c3aed", depthF: 0, lw: 2.4, vlw: 0 },
+    { key: "54mo", label: "54mo", color: "#0891b2", depthF: 0, lw: 2, vlw: 0 },
     { key: "18mo", label: "18mo", color: "#06b6d4", depthF: 0.35, lw: 2.8, vlw: 2.6 },
     { key: "40wk", label: "40wk", color: "#dc2626", depthF: 0.28, lw: 2.2, vlw: 2.4 },
     { key: "20wk", label: "20wk", color: "#ea580c", depthF: 0.22, lw: 1.7, vlw: 1.7 },
@@ -1357,26 +1382,110 @@ function InstrumentView({ inst }) {
           });
         });
       }
-      if (false) {
-        inst.HURST.forEach((cy) => {
-          const i = dIdx(cy.d);
-          const x = toX(i);
-          const lw2 = cy.type === "40wk" ? 2.4 : cy.type === "18mo" ? 2.6 : cy.type === "20wk" ? 1.7 : cy.type === "80d" ? 1.2 : cy.type === "40d" ? 0.9 : 0.6;
-          const al = cy.proj ? 0.38 : 0.62;
-          ctx.strokeStyle = cy.color + Math.round(al * 255).toString(16).padStart(2, "0");
-          ctx.lineWidth = lw2;
-          ctx.setLineDash(cy.proj ? [5, 3] : []);
-          ctx.beginPath();
-          ctx.moveTo(x, P.t);
-          ctx.lineTo(x, P.t + cH);
-          ctx.stroke();
-          ctx.setLineDash([]);
-          ctx.fillStyle = cy.color + (cy.proj ? "99" : "cc");
-          const big = cy.type === "40wk" || cy.type === "18mo";
-          ctx.font = `${big ? "bold 14" : "13"}px system-ui`;
-          ctx.textAlign = "center";
-          const off = cy.type === "18mo" ? 43 : cy.type === "40wk" ? 57 : cy.type === "20wk" ? 72 : cy.type === "80d" ? 87 : cy.type === "40d" ? 102 : 117;
-          ctx.fillText(cy.label, x, P.t + cH + off);
+      if (inst.HURST_ARCS) {
+        const arcHeightFrac = 0.28;
+        inst.HURST_ARCS.forEach((arc) => {
+          if (!cycleOn(arc.cycle)) return;
+          const thisHeightFrac = arc.heightFrac || arcHeightFrac;
+          const i1 = dIdx(arc.t1);
+          const i2 = dIdx(arc.t2);
+          const x1 = toX(i1);
+          const x2 = toX(i2);
+          const xLeft = Math.max(P.l, Math.min(x1, x2));
+          const xRight = Math.min(P.l + cW, Math.max(x1, x2));
+          if (xRight <= xLeft) return;
+          const xMid = (x1 + x2) / 2;
+          const yBase = P.t + cH;
+          const apexY = P.t - cH * thisHeightFrac;
+          const lastRealX = toX(histLen - 1);
+          const isFullyHistorical = x2 <= lastRealX;
+          const isFullyProjected = x1 >= lastRealX;
+          const isSplit = !isFullyHistorical && !isFullyProjected;
+          const hexAlpha = (a) => Math.round(a * 255).toString(16).padStart(2, "0");
+          const baseAlpha = 0.75, projAlpha = 0.42;
+          const bezierT = (bx) => {
+            const A = x1 - 2 * xMid + x2, B = 2 * (xMid - x1), C = x1 - bx;
+            if (Math.abs(A) < 1e-3) return B !== 0 ? -C / B : 0;
+            const disc = B * B - 4 * A * C;
+            if (disc < 0) return 0;
+            const t1c = (-B + Math.sqrt(disc)) / (2 * A), t2c = (-B - Math.sqrt(disc)) / (2 * A);
+            const cands = [t1c, t2c].filter((t) => t >= -0.01 && t <= 1.01);
+            return cands.length ? Math.min(...cands) : 0;
+          };
+          const bezierPt = (t) => ({
+            x: (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * xMid + t * t * x2,
+            y: (1 - t) * (1 - t) * yBase + 2 * (1 - t) * t * apexY + t * t * yBase
+          });
+          const drawArcSeg = (tStart, tEnd, alpha, dash) => {
+            const steps = 60;
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(P.l, apexY - 20, cW, cH + (yBase - apexY) + 20);
+            ctx.clip();
+            ctx.strokeStyle = arc.color + hexAlpha(alpha);
+            ctx.lineWidth = arc.lw;
+            ctx.setLineDash(dash);
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            for (let s = 0; s <= steps; s++) {
+              const t = tStart + (tEnd - tStart) * (s / steps);
+              const { x, y } = bezierPt(t);
+              s === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.restore();
+          };
+          if (isFullyHistorical) {
+            drawArcSeg(0, 1, baseAlpha, []);
+          } else if (isFullyProjected) {
+            drawArcSeg(0, 1, projAlpha, [7, 4]);
+          } else {
+            const tSplit = bezierT(lastRealX);
+            drawArcSeg(0, tSplit, baseAlpha, []);
+            drawArcSeg(tSplit, 1, projAlpha, [7, 4]);
+          }
+          [[x1, yBase], [x2, yBase]].forEach(([ex, ey]) => {
+            if (ex < P.l || ex > P.l + cW) return;
+            const isProj = ex > lastRealX;
+            ctx.beginPath();
+            ctx.arc(ex, ey, arc.lw + 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = arc.color + hexAlpha(isProj ? projAlpha : baseAlpha + 0.1);
+            ctx.fill();
+          });
+          if (xMid >= P.l && xMid <= P.l + cW) {
+            const labelY = apexY - 8;
+            const isMajor = arc.cycle === "9yr" || arc.cycle === "54mo";
+            ctx.font = `${isMajor ? "bold 12" : "11"}px system-ui`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "bottom";
+            const badge = arc.translation === "R" ? "\xAE R-trans" : "\u26A0 L-trans";
+            const badgeColor = arc.translation === "R" ? "#22c55e" : "#ef4444";
+            const mainLabel = arc.label;
+            const fullText = `${mainLabel}  ${badge}`;
+            const tw = ctx.measureText(fullText).width + 14;
+            const th = 18;
+            const bx = xMid - tw / 2;
+            const by = labelY - th;
+            ctx.fillStyle = "#060810cc";
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(bx, by, tw, th, 4);
+            else ctx.rect(bx, by, tw, th);
+            ctx.fill();
+            ctx.strokeStyle = arc.color + "55";
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(bx, by, tw, th, 4);
+            else ctx.rect(bx, by, tw, th);
+            ctx.stroke();
+            ctx.fillStyle = arc.color + "ee";
+            ctx.textAlign = "left";
+            ctx.fillText(mainLabel, bx + 7, labelY - 2);
+            const mainW = ctx.measureText(mainLabel + "  ").width;
+            ctx.fillStyle = badgeColor + "dd";
+            ctx.fillText(badge, bx + 7 + mainW, labelY - 2);
+            ctx.textBaseline = "alphabetic";
+          }
         });
       }
       if (showProj) {
@@ -1564,7 +1673,11 @@ function InstrumentView({ inst }) {
     setHov(null);
     setHovW(null);
     setCur(null);
-  } }), hov && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: Math.min(toX(allData.indexOf(hov)) + 28, w - 190), top: Math.max(toY(hov.p) - 10, 16), background: "#0f172a", border: "1px solid #334155", borderRadius: 8, padding: "7px 12px", pointerEvents: "none", zIndex: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#e2e8f0" } }, fmtD(hov.d)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: allData.indexOf(hov) >= histLen ? "#eab308" : inst.accent } }, inst.name, " $", hov.p.toFixed(2), allData.indexOf(hov) >= histLen ? " (proj)" : ""))), sel && /* @__PURE__ */ React.createElement("div", { style: { margin: "6px 24px 0", background: "#0c1020", border: `1px solid ${sel.color}40`, borderRadius: 10, padding: "12px 16px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } }, /* @__PURE__ */ React.createElement("div", { style: { minWidth: 48, height: 44, borderRadius: 10, background: `${sel.color}15`, border: `2px solid ${sel.color}60`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: sel.color, textAlign: "center", lineHeight: 1.1, padding: "0 4px" } }, sel.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 3 } }, sel.wave), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontStyle: "italic" } }, "\u{1F4F0} ", sel.news), sel.fib && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: inst.accent, marginTop: 3 } }, "\u{1F4D0} ", sel.fib)))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, padding: "12px 24px 0", flexWrap: "wrap" } }, [["scenarios", "\u{1F52E} Scenarios & Targets"], ["breadth", "\u{1FAC1} McClellan Breadth/Depth"], ["compare", "\u2696\uFE0F Comparative"], ["indicators", "\u{1F4CA} Indicators"], ["tdseq", "\u23F1 TD Sequential"], ["triggers", "\u{1F310} Intermarket & Triggers"], ["scorecard", "\u{1F4CB} Exhaustion Scorecard"], ["news", "\u{1F4F0} News Calendar"], ["invalid", "\u{1F6AB} Invalidation"], ["deep", "\u{1F4DC} Deep History"], ["hurstcalc", "\u{1F4D0} Hurst/EW Calc"]].map(([k, l]) => TAB(k, l))), panel === "scenarios" && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 24px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#0a0e17", border: "1px solid #1e293b", borderRadius: 10, padding: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, "HARMONIZED SCENARIO MATRIX \u2014 JUN 15 \u2192 SEP 15, 2026"), Object.entries(PROJ).map(([k, v]) => /* @__PURE__ */ React.createElement("div", { key: k, style: { padding: "9px 11px", marginBottom: 6, background: scenario === k ? "#0f172a" : "#06080f", borderRadius: 8, borderLeft: `3px solid ${v.color}`, border: scenario === k ? `1px solid ${v.color}40` : "1px solid transparent", cursor: "pointer" }, onClick: () => setScenario(k) }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 4 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: v.color } }, v.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: v.color } }, v.prob, "%")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#cbd5e1", lineHeight: 1.6 } }, inst.scen[k]), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#7e9ab5", marginTop: 4 } }, "Sep 15 target: ", /* @__PURE__ */ React.createElement("span", { style: { fontWeight: 700, color: v.color } }, "$", v.points[v.points.length - 1][1]), " ", "(", ((Number(v.points[v.points.length - 1][1]) / last - 1) * 100).toFixed(1), "% from $", last.toFixed(0), ")", tagFor(k)))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 8, padding: 9, background: "#1e1b4b", borderRadius: 8, border: "1px solid #312e81", fontSize: 12, color: "#c4b5fd", lineHeight: 1.6 } }, /* @__PURE__ */ React.createElement("b", null, "Probability-weighted Sep 15:"), " ", inst.pwSep), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 8, padding: 10, background: "#0c1020", borderRadius: 8, border: "1px dashed #0e7490", fontSize: 12, color: "#cbd5e1", lineHeight: 1.6 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#67e8f9", letterSpacing: 0.5, marginBottom: 4 } }, "\u26A0 ALTERNATE COUNT (off-matrix) \u2014 ", inst.altCount.name), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 3 } }, inst.altCount.thesis), /* @__PURE__ */ React.createElement("div", { style: { color: "#22c55e" } }, /* @__PURE__ */ React.createElement("b", null, "Tell it's this:"), " ", inst.altCount.tell), /* @__PURE__ */ React.createElement("div", { style: { color: "#ef4444", marginTop: 2 } }, /* @__PURE__ */ React.createElement("b", null, "Killed:"), " ", inst.altCount.kill), /* @__PURE__ */ React.createElement("div", { style: { color: "#67e8f9", marginTop: 2, fontWeight: 700 } }, "Targets: ", inst.altCount.target), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10.5, color: "#7e9ab5", marginTop: 4, fontStyle: "italic" } }, "Not in the 100% matrix \u2014 it mimics the wave-2/B bounce and only reveals itself by CONFIRMING breadth. Labeled so a 3rd-of-3 up can't blindside the bearish lean."))), /* @__PURE__ */ React.createElement("div", { style: { background: "#0a0e17", border: "1px solid #1e293b", borderRadius: 10, padding: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, "HURST TIMING + FIB LADDER"), inst.timing.map((r, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", gap: 8, padding: "5px 8px", marginBottom: 3, borderRadius: 6, borderLeft: `3px solid ${r.c}`, background: "#0f172a" } }, /* @__PURE__ */ React.createElement("div", { style: { minWidth: 78, fontSize: 12, fontWeight: 700, color: r.c } }, r.dt), /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "#c7d2fe" } }, r.ev), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#b0c4d8" } }, r.imp)))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 10, fontSize: 12, color: "#b0c4d8", fontWeight: 700, letterSpacing: 0.5 } }, "FIB / KEY-LEVEL LADDER"), /* @__PURE__ */ React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", marginTop: 6, fontSize: 12 } }, /* @__PURE__ */ React.createElement("tbody", null, inst.fibLadder.map(([lv, note, c], i) => /* @__PURE__ */ React.createElement("tr", { key: i }, /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 6px", borderBottom: "1px solid #11182766", color: c, fontWeight: 800, whiteSpace: "nowrap" } }, "$", lv), /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 6px", borderBottom: "1px solid #11182766", color: "#cbd5e1" } }, note))))))), panel === "breadth" && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 24px 20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#140d1f", border: "1px solid #4c1d95", borderRadius: 10, padding: 14, marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14.5, fontWeight: 800, color: "#c4b5fd", marginBottom: 6 } }, inst.breadthVerdict.headline), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "#cbd5e1", lineHeight: 1.7 } }, inst.breadthVerdict.detail), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "#a78bfa", lineHeight: 1.6, marginTop: 8, fontWeight: 600 } }, inst.breadthVerdict.weight), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#b0c4d8", marginTop: 8, fontStyle: "italic" } }, 'Framework & thresholds from the breadth/depth reference (McClellan, "Patterns for Profit" + "Understanding Oscillators"); F&P wave-breadth integration.')), /* @__PURE__ */ React.createElement(PriceOscPanel, { inst }), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(360px,1fr))", gap: 10 } }, inst.mcclellan.map((m, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { background: "#0a0e17", border: `1px solid ${m.c}33`, borderLeft: `3px solid ${m.c}`, borderRadius: 10, padding: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 } }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: 13.5, color: "#e2e8f0" } }, m.ind), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 800, color: m.c, whiteSpace: "nowrap" } }, m.now)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11.5, color: "#b0c4d8", lineHeight: 1.5, marginTop: 5, fontStyle: "italic" } }, "\u{1F4CF} ", m.rule), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#cbd5e1", lineHeight: 1.6, marginTop: 5 } }, m.read), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: m.c, marginTop: 5, letterSpacing: 0.5 } }, m.bias.toUpperCase())))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 14, fontSize: 11, color: "#7e9ab5", fontWeight: 700, letterSpacing: 0.5 } }, inst.mbTitle || "MEDIAN-STOCK vs CAP-WEIGHT BREADTH \u2014 what the A-D Line and RSP missed"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11.5, color: "#cbd5e1", lineHeight: 1.6, margin: "4px 0 10px" } }, inst.mbIntro || "The backtest's core finding: cap-weighted breadth (A-D Line, RSP) CONFIRMED into Jun 2 because it's dominated by the same tape that was making the high. The median stock \u2014 measured by distance-from-52wk-high and the % of members near their own highs \u2014 had already deteriorated. These internals narrow BEFORE the cap-weighted proxies roll, which is exactly the leading edge the model was missing."), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(360px,1fr))", gap: 10 } }, inst.medianBreadth.map((mb, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { background: "#0a0e17", border: "1px solid #1e293b", borderLeft: "3px solid #818cf8", borderRadius: 10, padding: 12 } }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: 12.5, color: "#e2e8f0" } }, mb.metric), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 6 } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, background: "#1e1b4b", borderRadius: 6, padding: "5px 8px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "#a5b4fc", letterSpacing: 0.5 } }, inst.mbCol || "AT JUN 2 TOP"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "#c4b5fd" } }, mb.atTop)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, background: "#0c1020", borderRadius: 6, padding: "5px 8px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "#7e9ab5", letterSpacing: 0.5 } }, "NOW"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "#cbd5e1" } }, mb.now))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#cbd5e1", lineHeight: 1.6, marginTop: 6 } }, mb.read))))), panel === "compare" && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 24px 20px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, inst.compareTitle || "COMPARATIVE-INSTRUMENT MATRIX \u2014 SPY vs RSP is the primary breadth pair (reference \xA78)"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(380px,1fr))", gap: 10 } }, inst.comparative.map((cp, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { background: "#0a0e17", border: `1px solid ${cp.c}33`, borderLeft: `3px solid ${cp.c}`, borderRadius: 10, padding: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline" } }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: 13.5, color: "#e2e8f0" } }, cp.pair), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10.5, fontWeight: 800, color: cp.c, letterSpacing: 0.5, textTransform: "uppercase" } }, cp.status)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#cbd5e1", lineHeight: 1.6, marginTop: 5 } }, cp.reading), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: cp.c, lineHeight: 1.6, marginTop: 5 } }, "\u2691 ", cp.signal))))), panel === "indicators" && (() => {
+  } }), hov && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: Math.min(toX(allData.indexOf(hov)) + 28, w - 190), top: Math.max(toY(hov.p) - 10, 16), background: "#0f172a", border: "1px solid #334155", borderRadius: 8, padding: "7px 12px", pointerEvents: "none", zIndex: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#e2e8f0" } }, fmtD(hov.d)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: allData.indexOf(hov) >= histLen ? "#eab308" : inst.accent } }, inst.name, " $", hov.p.toFixed(2), allData.indexOf(hov) >= histLen ? " (proj)" : ""))), sel && /* @__PURE__ */ React.createElement("div", { style: { margin: "6px 24px 0", background: "#0c1020", border: `1px solid ${sel.color}40`, borderRadius: 10, padding: "12px 16px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, alignItems: "flex-start" } }, /* @__PURE__ */ React.createElement("div", { style: { minWidth: 48, height: 44, borderRadius: 10, background: `${sel.color}15`, border: `2px solid ${sel.color}60`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: sel.color, textAlign: "center", lineHeight: 1.1, padding: "0 4px" } }, sel.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 3 } }, sel.wave), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontStyle: "italic" } }, "\u{1F4F0} ", sel.news), sel.fib && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: inst.accent, marginTop: 3 } }, "\u{1F4D0} ", sel.fib)))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, padding: "12px 24px 0", flexWrap: "wrap" } }, [["scenarios", "\u{1F52E} Scenarios & Targets"], ["breadth", "\u{1FAC1} McClellan Breadth/Depth"], ["compare", "\u2696\uFE0F Comparative"], ["indicators", "\u{1F4CA} Indicators"], ["tdseq", "\u23F1 TD Sequential"], ["triggers", "\u{1F310} Intermarket & Triggers"], ["scorecard", "\u{1F4CB} Exhaustion Scorecard"], ["news", "\u{1F4F0} News Calendar"], ["invalid", "\u{1F6AB} Invalidation"], ["deep", "\u{1F4DC} Deep History"], ["hurstcalc", "\u{1F4D0} Hurst/EW Calc"]].map(([k, l]) => TAB(k, l))), panel === "scenarios" && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 24px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#0a0e17", border: "1px solid #1e293b", borderRadius: 10, padding: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, "HARMONIZED SCENARIO MATRIX \u2014 JUN 15 \u2192 SEP 15, 2026"), Object.entries(PROJ).map(([k, v]) => /* @__PURE__ */ React.createElement("div", { key: k, style: { padding: "9px 11px", marginBottom: 6, background: scenario === k ? "#0f172a" : "#06080f", borderRadius: 8, borderLeft: `3px solid ${v.color}`, border: scenario === k ? `1px solid ${v.color}40` : "1px solid transparent", cursor: "pointer" }, onClick: () => setScenario(k) }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 4 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: v.color } }, v.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: v.color } }, v.prob, "%")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#cbd5e1", lineHeight: 1.6 } }, inst.scen[k]), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#7e9ab5", marginTop: 4 } }, "Sep 15 target: ", /* @__PURE__ */ React.createElement("span", { style: { fontWeight: 700, color: v.color } }, "$", v.points[v.points.length - 1][1]), " ", "(", ((Number(v.points[v.points.length - 1][1]) / last - 1) * 100).toFixed(1), "% from $", last.toFixed(0), ")", tagFor(k)))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 8, padding: 9, background: "#1e1b4b", borderRadius: 8, border: "1px solid #312e81", fontSize: 12, color: "#c4b5fd", lineHeight: 1.6 } }, /* @__PURE__ */ React.createElement("b", null, "Probability-weighted Sep 15:"), " ", inst.pwSep), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 8, padding: 10, background: "#0c1020", borderRadius: 8, border: "1px dashed #0e7490", fontSize: 12, color: "#cbd5e1", lineHeight: 1.6 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: "#67e8f9", letterSpacing: 0.5, marginBottom: 4 } }, "\u26A0 ALTERNATE COUNT (off-matrix) \u2014 ", inst.altCount.name), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 3 } }, inst.altCount.thesis), /* @__PURE__ */ React.createElement("div", { style: { color: "#22c55e" } }, /* @__PURE__ */ React.createElement("b", null, "Tell it's this:"), " ", inst.altCount.tell), /* @__PURE__ */ React.createElement("div", { style: { color: "#ef4444", marginTop: 2 } }, /* @__PURE__ */ React.createElement("b", null, "Killed:"), " ", inst.altCount.kill), /* @__PURE__ */ React.createElement("div", { style: { color: "#67e8f9", marginTop: 2, fontWeight: 700 } }, "Targets: ", inst.altCount.target), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10.5, color: "#7e9ab5", marginTop: 4, fontStyle: "italic" } }, "Not in the 100% matrix \u2014 it mimics the wave-2/B bounce and only reveals itself by CONFIRMING breadth. Labeled so a 3rd-of-3 up can't blindside the bearish lean."))), /* @__PURE__ */ React.createElement("div", { style: { background: "#0a0e17", border: "1px solid #1e293b", borderRadius: 10, padding: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, "LONG-CYCLE ARCS \u2014 TRANSLATION DIAGNOSTIC"), (inst.HURST_ARCS || []).map((arc, i) => {
+    const isR = arc.translation === "R";
+    const cycleColor = arc.cycle === "9yr" ? "#7c3aed" : arc.cycle === "54mo" ? "#0891b2" : "#0e7490";
+    return /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", gap: 8, padding: "6px 10px", marginBottom: 4, borderRadius: 6, borderLeft: `3px solid ${cycleColor}`, background: "#0a0e17" } }, /* @__PURE__ */ React.createElement("div", { style: { minWidth: 58, fontSize: 12, fontWeight: 800, color: cycleColor } }, arc.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 2 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: isR ? "#22c55e" : "#ef4444", background: isR ? "#14532d44" : "#7f1d1d44", borderRadius: 4, padding: "1px 6px" } }, isR ? "\xAE RIGHT-TRANSLATED" : "\u26A0 LEFT-TRANSLATED"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: isR ? "#86efac" : "#fca5a5" } }, isR ? "\u2192 bullish" : "\u2192 bearish")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#94a3b8", lineHeight: 1.5 } }, arc.note)));
+  }), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10.5, color: "#475569", fontStyle: "italic", marginBottom: 12, marginTop: 4 } }, 'Arc = B\xE9zier from trough\u2192trough. Solid = confirmed history \xB7 Dashed = projected. Apex label shows cycle + translation. Toggle "Cycle Arcs" button above chart.'), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, "HURST TIMING + FIB LADDER"), inst.timing.map((r, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", gap: 8, padding: "5px 8px", marginBottom: 3, borderRadius: 6, borderLeft: `3px solid ${r.c}`, background: "#0f172a" } }, /* @__PURE__ */ React.createElement("div", { style: { minWidth: 78, fontSize: 12, fontWeight: 700, color: r.c } }, r.dt), /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "#c7d2fe" } }, r.ev), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#b0c4d8" } }, r.imp)))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 10, fontSize: 12, color: "#b0c4d8", fontWeight: 700, letterSpacing: 0.5 } }, "FIB / KEY-LEVEL LADDER"), /* @__PURE__ */ React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", marginTop: 6, fontSize: 12 } }, /* @__PURE__ */ React.createElement("tbody", null, inst.fibLadder.map(([lv, note, c], i) => /* @__PURE__ */ React.createElement("tr", { key: i }, /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 6px", borderBottom: "1px solid #11182766", color: c, fontWeight: 800, whiteSpace: "nowrap" } }, "$", lv), /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 6px", borderBottom: "1px solid #11182766", color: "#cbd5e1" } }, note))))))), panel === "breadth" && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 24px 20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#140d1f", border: "1px solid #4c1d95", borderRadius: 10, padding: 14, marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14.5, fontWeight: 800, color: "#c4b5fd", marginBottom: 6 } }, inst.breadthVerdict.headline), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "#cbd5e1", lineHeight: 1.7 } }, inst.breadthVerdict.detail), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "#a78bfa", lineHeight: 1.6, marginTop: 8, fontWeight: 600 } }, inst.breadthVerdict.weight), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#b0c4d8", marginTop: 8, fontStyle: "italic" } }, 'Framework & thresholds from the breadth/depth reference (McClellan, "Patterns for Profit" + "Understanding Oscillators"); F&P wave-breadth integration.')), /* @__PURE__ */ React.createElement(PriceOscPanel, { inst }), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(360px,1fr))", gap: 10 } }, inst.mcclellan.map((m, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { background: "#0a0e17", border: `1px solid ${m.c}33`, borderLeft: `3px solid ${m.c}`, borderRadius: 10, padding: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 } }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: 13.5, color: "#e2e8f0" } }, m.ind), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 800, color: m.c, whiteSpace: "nowrap" } }, m.now)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11.5, color: "#b0c4d8", lineHeight: 1.5, marginTop: 5, fontStyle: "italic" } }, "\u{1F4CF} ", m.rule), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#cbd5e1", lineHeight: 1.6, marginTop: 5 } }, m.read), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: m.c, marginTop: 5, letterSpacing: 0.5 } }, m.bias.toUpperCase())))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 14, fontSize: 11, color: "#7e9ab5", fontWeight: 700, letterSpacing: 0.5 } }, inst.mbTitle || "MEDIAN-STOCK vs CAP-WEIGHT BREADTH \u2014 what the A-D Line and RSP missed"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11.5, color: "#cbd5e1", lineHeight: 1.6, margin: "4px 0 10px" } }, inst.mbIntro || "The backtest's core finding: cap-weighted breadth (A-D Line, RSP) CONFIRMED into Jun 2 because it's dominated by the same tape that was making the high. The median stock \u2014 measured by distance-from-52wk-high and the % of members near their own highs \u2014 had already deteriorated. These internals narrow BEFORE the cap-weighted proxies roll, which is exactly the leading edge the model was missing."), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(360px,1fr))", gap: 10 } }, inst.medianBreadth.map((mb, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { background: "#0a0e17", border: "1px solid #1e293b", borderLeft: "3px solid #818cf8", borderRadius: 10, padding: 12 } }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: 12.5, color: "#e2e8f0" } }, mb.metric), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 6 } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, background: "#1e1b4b", borderRadius: 6, padding: "5px 8px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "#a5b4fc", letterSpacing: 0.5 } }, inst.mbCol || "AT JUN 2 TOP"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "#c4b5fd" } }, mb.atTop)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, background: "#0c1020", borderRadius: 6, padding: "5px 8px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "#7e9ab5", letterSpacing: 0.5 } }, "NOW"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "#cbd5e1" } }, mb.now))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#cbd5e1", lineHeight: 1.6, marginTop: 6 } }, mb.read))))), panel === "compare" && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 24px 20px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#b0c4d8", fontWeight: 700, marginBottom: 10, letterSpacing: 0.5 } }, inst.compareTitle || "COMPARATIVE-INSTRUMENT MATRIX \u2014 SPY vs RSP is the primary breadth pair (reference \xA78)"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(380px,1fr))", gap: 10 } }, inst.comparative.map((cp, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { background: "#0a0e17", border: `1px solid ${cp.c}33`, borderLeft: `3px solid ${cp.c}`, borderRadius: 10, padding: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline" } }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: 13.5, color: "#e2e8f0" } }, cp.pair), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10.5, fontWeight: 800, color: cp.c, letterSpacing: 0.5, textTransform: "uppercase" } }, cp.status)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "#cbd5e1", lineHeight: 1.6, marginTop: 5 } }, cp.reading), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: cp.c, lineHeight: 1.6, marginTop: 5 } }, "\u2691 ", cp.signal))))), panel === "indicators" && (() => {
     const liveR = rsi14(inst.DATA);
     const liveM = macd(inst.DATA);
     const liveMA = ma50Cross(inst.DATA);
@@ -3516,7 +3629,10 @@ function DeepHistory({ inst }) {
   const [hovDeepMarker, setHovDeepMarker] = useState(null);
   const [tier, setTier] = useState("monthly");
   const [showDeepEW, setShowDeepEW] = useState(true);
-  const [showDeepHurst, setShowDeepHurst] = useState(true);
+  const [showDeepHurst18yr, setShowDeepHurst18yr] = useState(true);
+  const [showDeepHurst9yr, setShowDeepHurst9yr] = useState(true);
+  const [showDeepHurst54mo, setShowDeepHurst54mo] = useState(true);
+  const anyHurst = showDeepHurst18yr || showDeepHurst9yr || showDeepHurst54mo;
   const [showProj, setShowProj] = useState(true);
   useEffect(() => {
     const o = new ResizeObserver((es) => {
@@ -3633,14 +3749,17 @@ function DeepHistory({ inst }) {
         }
       }
     });
-    if (showDeepHurst) {
+    if (anyHurst) {
       deepHurstCycles.forEach((hc) => {
+        const is18 = hc.type === "18yr", is9 = hc.type === "9yr";
+        if (is18 && !showDeepHurst18yr) return;
+        if (is9 && !showDeepHurst9yr) return;
+        if (!is18 && !is9 && !showDeepHurst54mo) return;
         const idx = dateToIdx(hc.d.slice(0, 7));
         if (idx < 0) return;
-        const x = toX(idx);
+        const x = toXDate(hc.d.slice(0, 7));
         ctx.save();
         if (hc.projected) ctx.setLineDash([4, 3]);
-        const is18 = hc.type === "18yr", is9 = hc.type === "9yr";
         ctx.strokeStyle = is18 ? "#dc262655" : is9 ? "#ea580c40" : "#78350f30";
         ctx.lineWidth = is18 ? 2 : is9 ? 1.2 : 0.8;
         const top = is18 ? P.t : is9 ? P.t + cH * 0.15 : P.t + cH - 30;
@@ -3649,6 +3768,123 @@ function DeepHistory({ inst }) {
         ctx.lineTo(x, P.t + cH);
         ctx.stroke();
         ctx.restore();
+      });
+      const arcCfg = {
+        "18yr": { color: "#dc2626", lw: 2.4, hf: 0.55 },
+        "9yr": { color: "#ea580c", lw: 2, hf: 0.4 },
+        "54mo": { color: "#0891b2", lw: 1.6, hf: 0.25 }
+      };
+      const byType = {};
+      deepHurstCycles.forEach((hc) => {
+        if (!arcCfg[hc.type]) return;
+        if (!byType[hc.type]) byType[hc.type] = [];
+        byType[hc.type].push(hc);
+      });
+      Object.entries(byType).forEach(([cType, troughs]) => {
+        const cycleOn = cType === "18yr" ? showDeepHurst18yr : cType === "9yr" ? showDeepHurst9yr : showDeepHurst54mo;
+        if (!cycleOn) return;
+        troughs.sort((a, b) => a.d < b.d ? -1 : 1);
+        const cfg = arcCfg[cType];
+        const baseY = P.t + cH;
+        const apexY = P.t - cH * cfg.hf;
+        const hexA = (a) => Math.round(a * 255).toString(16).padStart(2, "0");
+        for (let i = 0; i < troughs.length - 1; i++) {
+          const t1 = troughs[i], t2 = troughs[i + 1];
+          const x1 = toXDate(t1.d.slice(0, 7));
+          const x2 = toXDate(t2.d.slice(0, 7));
+          if (!isFinite(x1) || !isFinite(x2) || x2 <= x1) continue;
+          const xMid = (x1 + x2) / 2;
+          const lastRealX = toX(DEEP.length - 1);
+          const isFullyProj = x1 >= lastRealX;
+          const isSplit = !isFullyProj && x2 > lastRealX;
+          const baseAlpha = 0.72, projAlpha = 0.38;
+          const bezPt = (t) => ({ x: (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * xMid + t * t * x2, y: (1 - t) * (1 - t) * baseY + 2 * (1 - t) * t * apexY + t * t * baseY });
+          const bezT = (bx) => {
+            const A = x1 - 2 * xMid + x2, B = 2 * (xMid - x1), C = x1 - bx;
+            if (Math.abs(A) < 0.01) return B ? -C / B : 0;
+            const disc = B * B - 4 * A * C;
+            if (disc < 0) return 0;
+            const ta = (-B + Math.sqrt(disc)) / (2 * A), tb = (-B - Math.sqrt(disc)) / (2 * A);
+            const cands = [ta, tb].filter((t) => t >= -0.01 && t <= 1.01);
+            return cands.length ? Math.min(...cands) : 0;
+          };
+          const drawSeg = (tA, tB, alpha, dash) => {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(P.l, apexY - 24, cW, cH + (baseY - apexY) + 24);
+            ctx.clip();
+            ctx.strokeStyle = cfg.color + hexA(alpha);
+            ctx.lineWidth = cfg.lw;
+            ctx.setLineDash(dash);
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            for (let s = 0; s <= 60; s++) {
+              const tt = tA + (tB - tA) * (s / 60);
+              const { x, y } = bezPt(tt);
+              s === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.restore();
+          };
+          if (isFullyProj) {
+            drawSeg(0, 1, projAlpha, [6, 4]);
+          } else if (isSplit) {
+            const ts = bezT(lastRealX);
+            drawSeg(0, ts, baseAlpha, []);
+            drawSeg(ts, 1, projAlpha, [6, 4]);
+          } else {
+            drawSeg(0, 1, baseAlpha, []);
+          }
+          [[x1, t1.projected], [x2, t2.projected]].forEach(([ex, isProj]) => {
+            if (ex < P.l - 4 || ex > P.l + cW + 4) return;
+            ctx.beginPath();
+            ctx.arc(ex, baseY, cfg.lw + 2, 0, Math.PI * 2);
+            ctx.fillStyle = cfg.color + hexA(isProj ? projAlpha : baseAlpha + 0.1);
+            ctx.fill();
+          });
+          if (xMid >= P.l && xMid <= P.l + cW) {
+            const idx1 = dateToIdx(t1.d.slice(0, 7)), idx2c = dateToIdx(t2.d.slice(0, 7));
+            let peakIdx = -1, peakVal = -Infinity;
+            if (idx1 >= 0 && idx2c >= 0) {
+              for (let k = idx1; k <= Math.min(idx2c, DEEP.length - 1); k++) {
+                if (DEEP[k][2] > peakVal) {
+                  peakVal = DEEP[k][2];
+                  peakIdx = k;
+                }
+              }
+            }
+            const midIdx = (idx1 + Math.min(idx2c, DEEP.length - 1)) / 2;
+            const isRight = peakIdx >= 0 && peakIdx > midIdx;
+            const transLabel = idx1 < 0 || idx2c < 0 || t2.projected ? "" : isRight ? " R" : " L";
+            const transColor = isRight ? "#22c55e" : "#ef4444";
+            ctx.font = "bold 9px system-ui";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "bottom";
+            const fullTxt = cType + transLabel;
+            const tw = ctx.measureText(fullTxt).width + 8, th = 13;
+            const bx2 = xMid - tw / 2, by2 = apexY - 5 - th;
+            ctx.fillStyle = "#060810cc";
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(bx2, by2, tw, th, 3);
+            else ctx.rect(bx2, by2, tw, th);
+            ctx.fill();
+            ctx.strokeStyle = cfg.color + "44";
+            ctx.lineWidth = 0.7;
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(bx2, by2, tw, th, 3);
+            else ctx.rect(bx2, by2, tw, th);
+            ctx.stroke();
+            ctx.fillStyle = cfg.color + "ee";
+            ctx.textAlign = "left";
+            ctx.fillText(cType, bx2 + 4, apexY - 7);
+            if (transLabel) {
+              ctx.fillStyle = transColor + "dd";
+              ctx.fillText(transLabel, bx2 + 4 + ctx.measureText(cType).width, apexY - 7);
+            }
+            ctx.textBaseline = "alphabetic";
+          }
+        }
       });
     }
     if (showVol) {
@@ -3793,7 +4029,7 @@ function DeepHistory({ inst }) {
       ctx.arc(x, toY(d[1]), 3, 0, Math.PI * 2);
       ctx.fill();
     }
-  }, [w, showWicks, showVol, hov, inst, tier, showDeepEW, showDeepHurst, showProj]);
+  }, [w, showWicks, showVol, hov, inst, tier, showDeepEW, showDeepHurst18yr, showDeepHurst9yr, showDeepHurst54mo, showProj]);
   const onMove = (e) => {
     if (tier !== "monthly") return;
     const c = cref.current;
@@ -3844,12 +4080,11 @@ function DeepHistory({ inst }) {
     ["H/L wicks", showWicks, setShowWicks],
     ["Volume", showVol, setShowVol],
     ["Elliott Wave", showDeepEW, setShowDeepEW],
-    ["Hurst Cycles", showDeepHurst, setShowDeepHurst],
     ["5-Yr Projection", showProj, setShowProj]
-  ].map(([l, v, s]) => /* @__PURE__ */ React.createElement("button", { key: l, onClick: () => s(!v), style: { marginLeft: 0, background: v ? "#0e7490" : "transparent", border: `1px solid ${v ? "#22d3ee" : "#334155"}`, color: v ? "#e0f2fe" : "#64748b", borderRadius: 6, padding: "3px 10px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, l))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("canvas", { ref: cref, style: { width: "100%", height: HT, display: "block", borderRadius: 8, border: "1px solid #1e293b", cursor: "crosshair" }, onMouseMove: onMove, onMouseLeave: () => {
+  ].map(([l, v, s]) => /* @__PURE__ */ React.createElement("button", { key: l, onClick: () => s(!v), style: { marginLeft: 0, background: v ? "#0e7490" : "transparent", border: `1px solid ${v ? "#22d3ee" : "#334155"}`, color: v ? "#e0f2fe" : "#64748b", borderRadius: 6, padding: "3px 10px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, l)), [["18yr", showDeepHurst18yr, setShowDeepHurst18yr, "#dc2626"], ["9yr", showDeepHurst9yr, setShowDeepHurst9yr, "#ea580c"], ["54mo", showDeepHurst54mo, setShowDeepHurst54mo, "#0891b2"]].map(([l, v, s, c]) => /* @__PURE__ */ React.createElement("button", { key: l, onClick: () => s(!v), style: { marginLeft: 0, background: v ? c + "22" : "transparent", border: `1px solid ${v ? c : "#334155"}`, color: v ? c : "#64748b", borderRadius: 6, padding: "3px 10px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, l))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("canvas", { ref: cref, style: { width: "100%", height: HT, display: "block", borderRadius: 8, border: "1px solid #1e293b", cursor: "crosshair" }, onMouseMove: onMove, onMouseLeave: () => {
     setHov(null);
     setHovDeepMarker(null);
-  } }), hovDeepMarker ? /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 8, left: 64, background: "#0c1020ee", border: `1px solid ${hovDeepMarker.type === "peak" ? "#22c55e55" : hovDeepMarker.type === "trough" ? "#ef444455" : "#f59e0b55"}`, borderRadius: 7, padding: "7px 11px", fontSize: 11.5, color: "#cbd5e1", pointerEvents: "none", maxWidth: 380 } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#e2e8f0" } }, hovDeepMarker.label), "  ", /* @__PURE__ */ React.createElement("span", { style: { color: "#7e9ab5" } }, hovDeepMarker.degree, " \xB7 ", hovDeepMarker.d.slice(0, 7)), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 3, color: "#94a3b8", fontSize: 11 } }, hovDeepMarker.note)) : hd && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 8, left: 64, background: "#0c1020ee", border: "1px solid #22d3ee55", borderRadius: 7, padding: "6px 10px", fontSize: 11.5, color: "#cbd5e1", pointerEvents: "none" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#e2e8f0" } }, hd[0]), "  ", "C $", hd[1], " \xB7 H $", hd[2], " \xB7 L $", hd[3], " \xB7 V ", fmtV(hd[4]))), (showDeepEW || showDeepHurst) && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 16, flexWrap: "wrap", marginTop: 6, padding: "7px 10px", background: "#0c1020", border: "1px solid #1e293b", borderRadius: 8, fontSize: 10.5, color: "#94a3b8" } }, showDeepEW && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#cbd5e1" } }, "EW:"), /* @__PURE__ */ React.createElement("span", { style: { color: "#22c55e" } }, "\u25CF peak"), /* @__PURE__ */ React.createElement("span", { style: { color: "#ef4444" } }, "\u25CF trough"), /* @__PURE__ */ React.createElement("span", { style: { color: "#f59e0b" } }, "\u25CF approaching"), /* @__PURE__ */ React.createElement("span", null, "size = degree (SC > Primary > Int)")), showDeepHurst && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#cbd5e1" } }, "Hurst:"), /* @__PURE__ */ React.createElement("span", { style: { color: "#dc2626" } }, "\u2503 18yr"), /* @__PURE__ */ React.createElement("span", { style: { color: "#ea580c" } }, "\u2503 9yr"), /* @__PURE__ */ React.createElement("span", { style: { color: "#78350f" } }, "\u2503 54mo"), /* @__PURE__ */ React.createElement("span", null, "\u250A dashed = projected"))), showDeepEW && deepEWLabels.length > 0 && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: "#94a3b8", marginBottom: 6, letterSpacing: "0.05em", textTransform: "uppercase" } }, "\u{1F464} Wave Narrative Timeline \u2014 ", inst.name, " \xB7 analyst-placed annotations"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(460px, 1fr))", gap: 8 } }, deepEWLabels.map((wl, i) => {
+  } }), hovDeepMarker ? /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 8, left: 64, background: "#0c1020ee", border: `1px solid ${hovDeepMarker.type === "peak" ? "#22c55e55" : hovDeepMarker.type === "trough" ? "#ef444455" : "#f59e0b55"}`, borderRadius: 7, padding: "7px 11px", fontSize: 11.5, color: "#cbd5e1", pointerEvents: "none", maxWidth: 380 } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#e2e8f0" } }, hovDeepMarker.label), "  ", /* @__PURE__ */ React.createElement("span", { style: { color: "#7e9ab5" } }, hovDeepMarker.degree, " \xB7 ", hovDeepMarker.d.slice(0, 7)), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 3, color: "#94a3b8", fontSize: 11 } }, hovDeepMarker.note)) : hd && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 8, left: 64, background: "#0c1020ee", border: "1px solid #22d3ee55", borderRadius: 7, padding: "6px 10px", fontSize: 11.5, color: "#cbd5e1", pointerEvents: "none" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#e2e8f0" } }, hd[0]), "  ", "C $", hd[1], " \xB7 H $", hd[2], " \xB7 L $", hd[3], " \xB7 V ", fmtV(hd[4]))), (showDeepEW || anyHurst) && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 16, flexWrap: "wrap", marginTop: 6, padding: "7px 10px", background: "#0c1020", border: "1px solid #1e293b", borderRadius: 8, fontSize: 10.5, color: "#94a3b8" } }, showDeepEW && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#cbd5e1" } }, "EW:"), /* @__PURE__ */ React.createElement("span", { style: { color: "#22c55e" } }, "\u25CF peak"), /* @__PURE__ */ React.createElement("span", { style: { color: "#ef4444" } }, "\u25CF trough"), /* @__PURE__ */ React.createElement("span", { style: { color: "#f59e0b" } }, "\u25CF approaching"), /* @__PURE__ */ React.createElement("span", null, "size = degree (SC > Primary > Int)")), anyHurst && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#cbd5e1" } }, "Hurst arcs:"), /* @__PURE__ */ React.createElement("span", { style: { color: "#dc2626" } }, "\u2322 18yr"), /* @__PURE__ */ React.createElement("span", { style: { color: "#ea580c" } }, "\u2322 9yr"), /* @__PURE__ */ React.createElement("span", { style: { color: "#0891b2" } }, "\u2322 54mo"), /* @__PURE__ */ React.createElement("span", { style: { color: "#22c55e", fontWeight: 700 } }, "R = right-translated (bullish)"), /* @__PURE__ */ React.createElement("span", { style: { color: "#ef4444", fontWeight: 700 } }, "L = left-translated (bearish)"), /* @__PURE__ */ React.createElement("span", null, "\u250A dashed = projected \xB7 solid = confirmed"))), showDeepEW && deepEWLabels.length > 0 && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: "#94a3b8", marginBottom: 6, letterSpacing: "0.05em", textTransform: "uppercase" } }, "\u{1F464} Wave Narrative Timeline \u2014 ", inst.name, " \xB7 analyst-placed annotations"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(460px, 1fr))", gap: 8 } }, deepEWLabels.map((wl, i) => {
     const borderColor = wl.type === "peak" ? "#22c55e55" : wl.type === "trough" ? "#ef444455" : "#f59e0b55";
     const labelColor = wl.type === "peak" ? "#22c55e" : wl.type === "trough" ? "#ef4444" : "#f59e0b";
     const degBg = wl.degree === "Supercycle" ? "#1e3a5f" : wl.degree === "Primary" ? "#1e293b" : "#0f172a";
