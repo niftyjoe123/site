@@ -24,6 +24,17 @@ function clampView(v, baseXScale, minDateVal, marginLeft) {
   return v.tx > maxTx ? { ...v, tx: maxTx } : v;
 }
 
+function touchDist(t0, t1) {
+  return Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+}
+
+function isFiniteView(v) {
+  return Number.isFinite(v.kx) && Number.isFinite(v.ky) && Number.isFinite(v.tx) && Number.isFinite(v.ty);
+}
+
+const DOUBLE_TAP_MS = 350;
+const TAP_MOVE_TOLERANCE = 12; // px -- a touch this size or smaller counts as a tap, not a drag
+
 // Log-scale price axis + the base plot (a close-price line, or full OHLC
 // candlesticks -- see `mode`). Owns the x/y scales and hands them to `children` (a
 // render-prop function) so overlay layers (Hurst arcs, FLD, scenario cone) share
@@ -77,6 +88,9 @@ export default function PriceLogAxisChart({
 }) {
   const svgRef = useRef(null);
   const dragRef = useRef(null); // { startClientX, startClientY, startTransform } while dragging
+  const touchRef = useRef(null); // { mode: 'pan', prevX, prevY } | { mode: 'pinch', prevDist, prevMidX, prevMidY }
+  const tapStartRef = useRef(null); // { time, x, y } -- for detecting a tap vs a drag
+  const lastTapRef = useRef(null); // { time, x, y } -- for detecting a SECOND tap (double-tap reset)
 
   const dates = bars.map((b) => new Date(b.d));
   const lows = bars.map((b) => (b.l ?? b.c)).filter((v) => v > 0);
@@ -129,6 +143,16 @@ export default function PriceLogAxisChart({
   const minDateRef = useRef(minDateResolved);
   minDateRef.current = minDateResolved;
 
+  // Rejects a non-finite view outright rather than committing it to state: dividing
+  // by a momentarily-zero element rect (e.g. a gesture starting the instant the chart
+  // mounts, before layout settles -- reproduced via a touch simulation during
+  // testing) produces Infinity/NaN that, once written to `view`, corrupts every scale
+  // downstream and crashes the component on the next render. A bad gesture sample
+  // is simply dropped; the NEXT real sample (once the rect is valid) resumes normally.
+  function safeSetView(v) {
+    if (isFiniteView(v)) setView(v);
+  }
+
   const x = new ZoomTransform(view.kx, view.tx, 0).rescaleX(baseX);
   const y = new ZoomTransform(view.ky, 0, view.ty).rescaleY(baseY);
 
@@ -167,10 +191,130 @@ export default function PriceLogAxisChart({
       const tx1 = px - ((px - v.tx) * kx1) / v.kx;
       const ty1 = py - ((py - v.ty) * ky1) / v.ky;
       const next = clampView({ kx: kx1, ky: ky1, tx: tx1, ty: ty1 }, baseXRef.current, minDateRef.current, margin.left);
-      setView(next);
+      safeSetView(next);
     }
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
+  }, [width, height, margin.left]);
+
+  // Touch: pinch-to-zoom (2 fingers) and drag-to-pan (1 finger), the touch
+  // equivalents of the wheel/mouse-drag handlers above -- same reasoning applies
+  // (React's synthetic touch events are passive too, so a native, non-passive
+  // listener is required to actually stop the browser's own scroll/pinch-zoom from
+  // fighting with this chart's own zoom). `touch-action: none` in CSS backs this up
+  // by telling the browser up front not to reserve the gesture for itself.
+  //
+  // Re-syncs the tracked gesture on every touchstart/touchend/touchcancel (not just
+  // the initial touchstart) because the finger COUNT changes mid-gesture -- e.g.
+  // lifting one finger during a pinch leaves one still down, which must continue as
+  // a pan from THAT finger's current position, not jump using stale pinch state.
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return undefined;
+
+    function localPoint(t, rect) {
+      return {
+        x: (t.clientX - rect.left) * (width / rect.width),
+        y: (t.clientY - rect.top) * (height / rect.height),
+      };
+    }
+
+    function syncGesture(touches, rect) {
+      if (touches.length === 1) {
+        const p = localPoint(touches[0], rect);
+        touchRef.current = { mode: 'pan', prevX: p.x, prevY: p.y };
+      } else if (touches.length >= 2) {
+        const p0 = localPoint(touches[0], rect);
+        const p1 = localPoint(touches[1], rect);
+        touchRef.current = {
+          mode: 'pinch',
+          prevDist: touchDist(touches[0], touches[1]),
+          prevMidX: (p0.x + p1.x) / 2,
+          prevMidY: (p0.y + p1.y) / 2,
+        };
+      } else {
+        touchRef.current = null;
+      }
+    }
+
+    function onTouchStart(e) {
+      e.preventDefault();
+      const rect = el.getBoundingClientRect();
+      if (e.touches.length === 1 && !tapStartRef.current) {
+        const p = localPoint(e.touches[0], rect);
+        tapStartRef.current = { time: Date.now(), x: p.x, y: p.y };
+      }
+      syncGesture(e.touches, rect);
+    }
+
+    function onTouchMove(e) {
+      e.preventDefault();
+      const rect = el.getBoundingClientRect();
+      const g = touchRef.current;
+      if (!g) return;
+      const v = viewRef.current;
+      if (g.mode === 'pan' && e.touches.length === 1) {
+        const p = localPoint(e.touches[0], rect);
+        const dx = p.x - g.prevX;
+        const dy = p.y - g.prevY;
+        safeSetView(clampView({ ...v, tx: v.tx + dx, ty: v.ty + dy }, baseXRef.current, minDateRef.current, margin.left));
+        touchRef.current = { mode: 'pan', prevX: p.x, prevY: p.y };
+      } else if (g.mode === 'pinch' && e.touches.length >= 2) {
+        const p0 = localPoint(e.touches[0], rect);
+        const p1 = localPoint(e.touches[1], rect);
+        const dist = touchDist(e.touches[0], e.touches[1]);
+        const midX = (p0.x + p1.x) / 2;
+        const midY = (p0.y + p1.y) / 2;
+        // A degenerate previous distance (e.g. the gesture started with both fingers
+        // reported at the same point) would divide-by-zero into Infinity/NaN --
+        // skip applying a zoom just this once, but still refresh prevDist/prevMid from
+        // the CURRENT (presumably valid) reading so the very next move can resume
+        // normally instead of getting permanently stuck on a broken baseline.
+        if (g.prevDist > 0) {
+          const factor = dist / g.prevDist;
+          const kx1 = Math.min(MAX_K, Math.max(MIN_K, v.kx * factor));
+          const ky1 = Math.min(MAX_K, Math.max(MIN_K, v.ky * factor));
+          const tx1 = midX - ((midX - v.tx) * kx1) / v.kx;
+          const ty1 = midY - ((midY - v.ty) * ky1) / v.ky;
+          safeSetView(clampView({ kx: kx1, ky: ky1, tx: tx1, ty: ty1 }, baseXRef.current, minDateRef.current, margin.left));
+        }
+        touchRef.current = { mode: 'pinch', prevDist: dist, prevMidX: midX, prevMidY: midY };
+      }
+    }
+
+    function onTouchEnd(e) {
+      const rect = el.getBoundingClientRect();
+      if (e.touches.length === 0 && tapStartRef.current) {
+        const start = tapStartRef.current;
+        const moved = Math.hypot(
+          (e.changedTouches[0] ? localPoint(e.changedTouches[0], rect).x : start.x) - start.x,
+          (e.changedTouches[0] ? localPoint(e.changedTouches[0], rect).y : start.y) - start.y,
+        );
+        const isTap = moved <= TAP_MOVE_TOLERANCE && Date.now() - start.time < 500;
+        if (isTap) {
+          const last = lastTapRef.current;
+          if (last && Date.now() - last.time < DOUBLE_TAP_MS && Math.hypot(start.x - last.x, start.y - last.y) <= TAP_MOVE_TOLERANCE * 2) {
+            setView(homeViewRef.current);
+            lastTapRef.current = null; // consumed -- a third quick tap starts a fresh pair, not another reset
+          } else {
+            lastTapRef.current = { time: Date.now(), x: start.x, y: start.y };
+          }
+        }
+        tapStartRef.current = null;
+      }
+      syncGesture(e.touches, rect);
+    }
+
+    el.addEventListener('touchstart', onTouchStart, { passive: false });
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    el.addEventListener('touchend', onTouchEnd, { passive: false });
+    el.addEventListener('touchcancel', onTouchEnd, { passive: false });
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+      el.removeEventListener('touchcancel', onTouchEnd);
+    };
   }, [width, height, margin.left]);
 
   function handleMouseDown(e) {
@@ -184,7 +328,7 @@ export default function PriceLogAxisChart({
     const dy = (e.clientY - dragRef.current.startClientY) * (height / rect.height);
     const v0 = dragRef.current.startView;
     const next = clampView({ ...v0, tx: v0.tx + dx, ty: v0.ty + dy }, baseX, minDateResolved, margin.left);
-    setView(next);
+    safeSetView(next);
   }
 
   function endDrag() {
