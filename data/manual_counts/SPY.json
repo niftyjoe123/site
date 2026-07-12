@@ -1,12 +1,10 @@
 {
   "key": "SPY",
   "exported_at": "2026-07-12T00:00:00.000Z",
-  "note": "Alternate Intermediate-degree count (2026-07-12, explicit user request): avoids the auto count's truncated wave 5 by reading the 2022-01-04 high (479.98) as the true, un-truncated wave (5) instead of wave (3). The correction that follows is read as A-B-C-X, using the same real confirmed pivots the auto count already has -- no fabricated points. Blue (#4da6ff) to stay visually distinct from the auto count's white Intermediate labels. Waves (1)/(2) are identical in both counts (2020-09-02/2020-09-24) so are deliberately NOT duplicated here -- would just stack on the auto labels with no new information. Every remaining point below sits on the SAME date as an auto label by design (that's the point of a relabel) and carries a dy nudge so both labels stay legible side by side rather than fully overlapping. Coexists with the auto count; does not modify or hide it.",
+  "note": "Alternate Minor-degree count (2026-07-12, explicit user request): the auto count validates a complete impulse 2025-07-31..2025-10-29, then can't build a valid new one through the 2026-01-28 high (a hypothesis starting at the 2025-11-21 low breaks the wave-2 rule at 2026-03-30), so it draws 2025-11-21/2026-01-28 as unlabeled real turns -- a visible gap. This reading instead treats 2025-10-29's high as wave 3 (not 5), 2025-11-21 as wave 4, and 2026-01-28 as wave 5 -- landing exactly on the Intermediate (1) top, matching Elliott's fractal-nesting expectation (a degree's wave 1 top IS the finer degree's completing wave 5). Checked against the hard rules: wave 3 (70.41pts) is not the shortest of 1/3/5 (wave 5 at 46.99pts is); wave 4 (650.85) does not enter wave 1's territory (481.80-639.85); wave 5 (697.84) exceeds wave 3 (689.70) -- not truncated, unlike the auto reading's own wave 5. Orange (#ff9f43) to stay distinct from Minor's own auto blue (#4a7dff) and every other EW_DEGREES color. Coexists with the auto count -- the auto wave 3/4 (both 2025-10-10, a same-day whipsaw) could not be cleanly hidden/relabeled via the OVERRIDE system, since it keys strictly on (scale, date) and both share one date.",
   "annotations": [
-    { "d": "2022-01-04", "degree": "intermediate", "wave": "5", "position": "above", "color": "#4da6ff", "dy": -16 },
-    { "d": "2022-02-24", "degree": "intermediate", "wave": "A", "position": "below", "color": "#4da6ff", "dy": 16 },
-    { "d": "2022-03-29", "degree": "intermediate", "wave": "B", "position": "above", "color": "#4da6ff", "dy": -16 },
-    { "d": "2022-06-17", "degree": "intermediate", "wave": "C", "position": "below", "color": "#4da6ff", "dy": 16 },
-    { "d": "2022-08-16", "degree": "intermediate", "wave": "X", "position": "above", "color": "#4da6ff", "dy": -16 }
+    { "d": "2025-10-29", "degree": "minor", "wave": "3", "position": "above", "color": "#ff9f43", "dy": -16 },
+    { "d": "2025-11-21", "degree": "minor", "wave": "4", "position": "below", "color": "#ff9f43" },
+    { "d": "2026-01-28", "degree": "minor", "wave": "5", "position": "above", "color": "#ff9f43", "dy": -16 }
   ]
 }
