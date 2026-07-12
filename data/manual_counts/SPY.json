@@ -1,0 +1,12 @@
+{
+  "key": "SPY",
+  "exported_at": "2026-07-12T00:00:00.000Z",
+  "note": "Alternate Intermediate-degree count (2026-07-12, explicit user request): avoids the auto count's truncated wave 5 by reading the 2022-01-04 high (479.98) as the true, un-truncated wave (5) instead of wave (3). The correction that follows is read as A-B-C-X, using the same real confirmed pivots the auto count already has -- no fabricated points. Blue (#4da6ff) to stay visually distinct from the auto count's white Intermediate labels. Waves (1)/(2) are identical in both counts (2020-09-02/2020-09-24) so are deliberately NOT duplicated here -- would just stack on the auto labels with no new information. Every remaining point below sits on the SAME date as an auto label by design (that's the point of a relabel) and carries a dy nudge so both labels stay legible side by side rather than fully overlapping. Coexists with the auto count; does not modify or hide it.",
+  "annotations": [
+    { "d": "2022-01-04", "degree": "intermediate", "wave": "5", "position": "above", "color": "#4da6ff", "dy": -16 },
+    { "d": "2022-02-24", "degree": "intermediate", "wave": "A", "position": "below", "color": "#4da6ff", "dy": 16 },
+    { "d": "2022-03-29", "degree": "intermediate", "wave": "B", "position": "above", "color": "#4da6ff", "dy": -16 },
+    { "d": "2022-06-17", "degree": "intermediate", "wave": "C", "position": "below", "color": "#4da6ff", "dy": 16 },
+    { "d": "2022-08-16", "degree": "intermediate", "wave": "X", "position": "above", "color": "#4da6ff", "dy": -16 }
+  ]
+}
